@@ -3,13 +3,19 @@ package com.musicrecord.shared;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+
+@Table(name = "records")
 public class Records implements Serializable {
    
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idRecords")
     private int idRecords;
 
