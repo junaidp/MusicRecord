@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class Record implements Serializable {
+public class Records implements Serializable {
    // @idRecords
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idRecords")
