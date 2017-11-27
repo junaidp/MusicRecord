@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 public class Records implements Serializable {
-   // @idRecords
+   
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idRecords")
     private int idRecords;
