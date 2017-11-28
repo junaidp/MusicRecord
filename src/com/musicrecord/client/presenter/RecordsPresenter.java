@@ -124,7 +124,6 @@ public class RecordsPresenter implements Presenter
 	    @Override
 	    public void onSuccess(String result) {
 		fetchRecords();
-
 	    }
 
 	    @Override
@@ -153,7 +152,7 @@ public class RecordsPresenter implements Presenter
 	    @Override
 	    public void onSuccess(ArrayList<Records> result) {
 		display.getCellTable().setRowData(0, result);
-
+		// display.getCellTable().setRowCount(count);
 	    }
 
 	    @Override
