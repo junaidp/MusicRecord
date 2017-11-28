@@ -1,6 +1,10 @@
 package com.musicrecord.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.musicrecord.shared.Records;
 import com.musicrecord.shared.User;
 
 /**
@@ -8,5 +12,11 @@ import com.musicrecord.shared.User;
  */
 public interface GreetingServiceAsync {
     void signIn(String userid, String password, AsyncCallback<User> callback);
+
+    void fetchRecords(HashMap<String, String> requestInfo, AsyncCallback<ArrayList<Records>> callback);
+
+    void editRecord(Records record, AsyncCallback<String> callback);
+
+    void deleteRecord(Records record, AsyncCallback<String> callback);
 
 }

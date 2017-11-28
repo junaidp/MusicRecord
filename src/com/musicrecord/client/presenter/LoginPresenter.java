@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.musicrecord.client.GreetingServiceAsync;
-import com.musicrecord.client.event.AdminEvent;
+import com.musicrecord.client.event.RecordsEvent;
 import com.musicrecord.client.view.LoadingPopup;
 import com.musicrecord.shared.User;
 
@@ -94,8 +94,8 @@ public class LoginPresenter implements Presenter
 
 		    display.getLblError().setVisible(false);
 		    // if (user.getRoleId().getRoleId() == 5) {
-
-		    eventBus.fireEvent(new AdminEvent(user));
+		    eventBus.fireEvent(new RecordsEvent());
+		    // eventBus.fireEvent(new AdminEvent(user));
 		    // } else {
 		    // eventBus.fireEvent(new MainEvent(user));...
 		    // }

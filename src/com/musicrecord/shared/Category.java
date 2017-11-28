@@ -1,5 +1,7 @@
 package com.musicrecord.shared;
+
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,35 +9,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.google.gwt.dom.client.TagName;
-
 @Entity
-@Table(name="Category")
+@Table(name = "category")
 public class Category implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idCategory")
-    private int idCategory;
-    
-    @Column(name = "categoryname")
+    @Column(name = "categoryid")
+    private int categoryid;
+
+    @Column(name = "name")
     private String categoryname;
 
-	public int getIdCategory() {
-		return idCategory;
-	}
+    public String getCategoryname() {
+	return categoryname;
+    }
 
-	public void setIdCategory(int idCategory) {
-		this.idCategory = idCategory;
-	}
+    public void setCategoryname(String categoryname) {
+	this.categoryname = categoryname;
+    }
 
-	public String getCategoryname() {
-		return categoryname;
-	}
+    public int getCategoryid() {
+	return categoryid;
+    }
 
-	public void setCategoryname(String categoryname) {
-		this.categoryname = categoryname;
-	}
+    public void setCategoryid(int categoryid) {
+	this.categoryid = categoryid;
+    }
 }

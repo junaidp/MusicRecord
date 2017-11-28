@@ -22,7 +22,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 		<property name="annotatedClasses">
 			<list>
 				<value>com.musicrecord.shared.User</value>
+				<value>com.musicrecord.shared.Category</value>
+				<value>com.musicrecord.shared.Records</value>
 				<value>com.musicrecord.shared.Roles</value>
+				
+				
 				</list>
 		</property>
 	</bean>

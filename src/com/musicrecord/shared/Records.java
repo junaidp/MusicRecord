@@ -16,54 +16,52 @@ import javax.persistence.Table;
 
 @Table(name = "records")
 public class Records implements Serializable {
-   
+
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idRecords")
-    private int idRecords;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "recordsid")
+    private int records;
 
     @Column(name = "title")
     private String title;
+
     @Column(name = "artist")
     private String artist;
-    
-    @Column(name = "category")
-    private int category;
-	
-    @JoinColumn(name = "idCategory")
-    @ManyToOne(fetch = FetchType.EAGER)
 
-    public int getIdRecords() {
-		return idRecords;
-	}
+    @JoinColumn(name = "categoryid")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
 
-	public void setIdRecords(int idRecords) {
-		this.idRecords = idRecords;
-	}
+    public int getRecords() {
+	return records;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setRecords(int records) {
+	this.records = records;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getTitle() {
+	return title;
+    }
 
-	public String getArtist() {
-		return artist;
-	}
+    public void setTitle(String title) {
+	this.title = title;
+    }
 
-	public void setArtist(String artist) {
-		this.artist = artist;
-	}
+    public String getArtist() {
+	return artist;
+    }
 
-	public int getCategory() {
-		return category;
-	}
+    public void setArtist(String artist) {
+	this.artist = artist;
+    }
 
-	public void setCategory(int category) {
-		this.category = category;
-	}
+    public Category getCategory() {
+	return category;
+    }
 
+    public void setCategory(Category category) {
+	this.category = category;
+    }
 
 }

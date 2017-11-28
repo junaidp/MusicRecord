@@ -11,11 +11,11 @@ import junit.framework.TestCase;
 
 public class MusicRecordTests extends TestCase {
 
-    MusicHelper musicHelper = new MusicHelper();
+    MusicHelper musicHelper;
 
     @Before
     public void setUp() throws Exception {
-
+	musicHelper = new MusicHelper();
     }
 
     @After
