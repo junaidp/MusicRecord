@@ -10,6 +10,8 @@ import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.musicrecord.client.presenter.RecordsPresenter;
 import com.musicrecord.shared.Records;
@@ -19,19 +21,35 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
     private CellTable<Records> cellTable;
     private Column<Records, String> title;
     private Column<Records, String> artist;
+    private Column<Records, String> category;
     private Column<Records, String> edit;
     private Column<Records, String> delete;
     private SimplePager pager;
+    private TextBox textSearch = new TextBox();
+    private ListBox listSearchBy = new ListBox();
 
     public RecordsView() {
 
+	cellTable = new CellTable<Records>();
+	HorizontalPanel hpnlSearch = new HorizontalPanel();
+	hpnlSearch.add(listSearchBy);
+	hpnlSearch.add(textSearch);
+	textSearch.getElement().setPropertyString("placeholder", "Search");
+	listSearchBy.addItem("All");
+	listSearchBy.addItem("Title");
+	listSearchBy.addItem("Artist");
 	createCellTableFields();
+
+	add(hpnlSearch);
+	add(cellTable);
 	setPagerToCellTable();
 
     }
 
     private void createCellTableFields() {
-	cellTable = new CellTable<Records>();
+
+	cellTable.setWidth("100%");
+	cellTable.setTableLayoutFixed(true);
 	cellTable.setEmptyTableWidget(new HTML("No data found"));
 	TextCell titleCell = new TextCell();
 	title = new Column<Records, String>(titleCell) {
@@ -48,11 +66,21 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 
 	    @Override
 	    public String getValue(Records object) {
-		return object.getTitle();
+		return object.getArtist();
 	    }
 	};
 
 	cellTable.addColumn(artist, MyConstants.COLUMN_ARTIST);
+
+	category = new Column<Records, String>(new TextCell()) {
+
+	    @Override
+	    public String getValue(Records object) {
+		return object.getCategory().getCategoryname();
+	    }
+	};
+
+	cellTable.addColumn(category, MyConstants.COLUMN_CATEGORY);
 
 	edit = new Column<Records, String>(new ButtonCell()) {
 
@@ -77,7 +105,6 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 	title.setSortable(true);
 	artist.setSortable(true);
 
-	add(cellTable);
     }
 
     public void createNewPager() {
@@ -125,6 +152,14 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 
     public Column<Records, String> getDelete() {
 	return delete;
+    }
+
+    public TextBox getTextSearch() {
+	return textSearch;
+    }
+
+    public ListBox getListSearchBy() {
+	return listSearchBy;
     }
 
 }

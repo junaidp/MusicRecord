@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 
@@ -31,6 +32,9 @@ public class Records implements Serializable {
     @JoinColumn(name = "categoryid")
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
+
+    @Transient
+    private int count;
 
     public int getRecords() {
 	return records;
@@ -62,6 +66,14 @@ public class Records implements Serializable {
 
     public void setCategory(Category category) {
 	this.category = category;
+    }
+
+    public int getCount() {
+	return count;
+    }
+
+    public void setCount(int count) {
+	this.count = count;
     }
 
 }

@@ -9,6 +9,9 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.musicrecord.shared.Records;
@@ -55,15 +58,40 @@ public class MySQLRdbHelper {
 
     public ArrayList<Records> fetchRecords(HashMap<String, String> map) throws Exception {
 	Session session = null;
+	int count = 0;
+	String searchBy = map.get("searchBy");
+	String keyWord = map.get("keyWord");
 	ArrayList<Records> listRecords = new ArrayList<Records>();
 	try {
 	    session = sessionFactory.openSession();
 
 	    Criteria crit = session.createCriteria(Records.class);
-	    crit.createAlias("category", "catego");
+	    crit.createAlias("category", "cat");
+	    if (keyWord.trim().length() > 0) {
+		if (searchBy.equalsIgnoreCase("title")) {
+		    crit.add(Restrictions.ilike("title", keyWord, MatchMode.START));
+		} else if (searchBy.equalsIgnoreCase("artist")) {
+		    crit.add(Restrictions.like("artist", keyWord, MatchMode.START));
+		} else if (searchBy.equals("All")) {
+		    Disjunction disc = Restrictions.disjunction();
+		    disc.add(Restrictions.like("artist", keyWord, MatchMode.START));
+		    disc.add(Restrictions.like("title", keyWord, MatchMode.START));
+		    crit.add(disc);
+		}
+	    }
+	    count = crit.list().size();
+	    crit.setMaxResults(Integer.parseInt(map.get("length")));
+	    String sortorder = map.get("sortOrder");
+	    crit.setFirstResult(Integer.parseInt(map.get("start")));
+	    if (sortorder.equalsIgnoreCase("asc")) {
+		crit.addOrder(Order.asc(map.get("sortField")));
+	    } else {
+		crit.addOrder(Order.desc(map.get("sortField")));
+	    }
 	    List rsList = crit.list();
 	    for (Iterator it = rsList.iterator(); it.hasNext();) {
 		Records record = (Records) it.next();
+		record.setCount(count);
 		listRecords.add(record);
 
 	    }
