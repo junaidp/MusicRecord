@@ -24,7 +24,7 @@ h1 {
   margin: 5px;
 }
 
-.serverResponseLabelError {
+.error {
   color: red;
 }
 
@@ -32,3 +32,22 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+.shadowDiv{
+ 	background-color: #FEFEFE;
+ 	border: 2px none;
+ 	box-shadow: 5px 5px 5px #888888;
+ 	margin-left: 25%;
+ 	margin-top: 7%;
+ 	padding-top: 50px;
+ 	padding-left: 15%;
+ 	width: 600px;
+ 	padding-bottom: 50px;
+}
+.header{
+	width: 250px;
+	height:30px;
+	 text-align:center;
+     
+}
+
