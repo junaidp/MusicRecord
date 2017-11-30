@@ -48,6 +48,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	eventBus.addHandler(RecordsEvent.TYPE, new RecordsEventHandler() {
 	    public void onRecords(RecordsEvent event) {
+		loggedInUser = event.getLoggedInUser();
+
 		History.newItem("catalogue");
 
 	    }
@@ -57,7 +59,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
     public void go(final HasWidgets container) {
 	this.container = container;
-	this.mainContainer = container;
 
 	if (centerPanel == null) {
 	    centerPanel = new VerticalPanel();
@@ -76,20 +77,19 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	if (token != null) {
 	    presenter = null;
 
-	    if (token.equals("login")) {
-		presenter = new LoginPresenter(rpcService, eventBus, new LoginView());
-		if (presenter != null) {
-		    this.container = mainContainer;
-		    presenter.go(container);
-		}
+	    if (loggedInUser == null && !token.equals("login")) {
+		History.newItem("login");
 	    }
 
-	    if (token.equals("catalogue")) {
+	    else if (token.equals("login")) {
+		presenter = new LoginPresenter(rpcService, eventBus, new LoginView());
+		presenter.go(container);
+	    }
+
+	    else if (token.equals("catalogue")) {
 		presenter = new RecordsPresenter(rpcService, eventBus, new RecordsView());
-		if (presenter != null) {
-		    this.container = mainContainer;
-		    presenter.go(container);
-		}
+		presenter.go(container);
+
 	    }
 
 	}

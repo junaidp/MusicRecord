@@ -29,6 +29,8 @@ public class LoginView extends Composite implements LoginPresenter.Display {
 
     public LoginView() {
 	initWidget(uiBinder.createAndBindUi(this));
+	txtUserName.getElement().setPropertyString("placeholder", "Enter Username");
+	txtPassword.getElement().setPropertyString("placeholder", "Enter Password");
     }
 
     public Button getBtnSubmit() {

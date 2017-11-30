@@ -14,6 +14,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import com.musicrecord.shared.Category;
 import com.musicrecord.shared.Records;
 import com.musicrecord.shared.User;
 
@@ -98,30 +99,26 @@ public class MySQLRdbHelper {
 	    return listRecords;
 
 	} catch (Exception ex) {
-	    logger.warn(String.format("Exception occured in getAuthentication", ex.getMessage()), ex);
-	    System.out.println("Exception occured in getAuthentication" + ex.getMessage());
-
-	    throw new Exception("Exception occured in getAuthentication");
+	    logger.warn(String.format("Exception occured in Fetch Records", ex.getMessage()), ex);
+	    throw new Exception("Exception occured in Fetch Records");
 	} finally {
 	    session.close();
 	}
 
     }
 
-    public String editRecord(Records record) throws Exception {
+    public String saveRecord(Records record) throws Exception {
 	Session session = null;
 
 	try {
 	    session = sessionFactory.openSession();
-	    session.update(record);
+	    session.saveOrUpdate(record);
 	    session.flush();
-	    return "record updated";
+	    return "Record Saved";
 
 	} catch (Exception ex) {
-	    logger.warn(String.format("Exception occured in getAuthentication", ex.getMessage()), ex);
-	    System.out.println("Exception occured in getAuthentication" + ex.getMessage());
-
-	    throw new Exception("Exception occured in getAuthentication");
+	    logger.warn(String.format("Exception occured in save record", ex.getMessage()), ex);
+	    throw new Exception("Exception occured in save record");
 	} finally {
 	    session.close();
 	}
@@ -137,13 +134,38 @@ public class MySQLRdbHelper {
 	    return "record deleted";
 
 	} catch (Exception ex) {
-	    logger.warn(String.format("Exception occured in getAuthentication", ex.getMessage()), ex);
-	    System.out.println("Exception occured in getAuthentication" + ex.getMessage());
-
-	    throw new Exception("Exception occured in getAuthentication");
+	    logger.warn(String.format("Exception occured in Delete Record", ex.getMessage()), ex);
+	    throw new Exception("Exception occured in Delete Record");
 	} finally {
 	    session.close();
 	}
     }
 
+    public ArrayList<Category> fetchCategories() throws Exception {
+	Session session = null;
+
+	ArrayList<Category> listCategories = new ArrayList<Category>();
+	try {
+	    session = sessionFactory.openSession();
+
+	    Criteria crit = session.createCriteria(Category.class);
+
+	    List csList = crit.list();
+
+	    for (Iterator it = csList.iterator(); it.hasNext();) {
+
+		Category category = (Category) it.next();
+		listCategories.add(category);
+
+	    }
+	    return listCategories;
+
+	} catch (Exception ex) {
+	    logger.warn(String.format("Exception occured in Fetch Categories", ex.getMessage()), ex);
+	    throw new Exception("Exception occured in fetchCategories");
+	} finally {
+	    session.close();
+	}
+
+    }
 }

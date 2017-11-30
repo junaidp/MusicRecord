@@ -94,7 +94,7 @@ public class LoginPresenter implements Presenter
 
 		    display.getLblError().setVisible(false);
 		    // if (user.getRoleId().getRoleId() == 5) {
-		    eventBus.fireEvent(new RecordsEvent());
+		    eventBus.fireEvent(new RecordsEvent(user));
 		    // eventBus.fireEvent(new AdminEvent(user));
 		    // } else {
 		    // eventBus.fireEvent(new MainEvent(user));...

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.musicrecord.client.GreetingService;
+import com.musicrecord.shared.Category;
 import com.musicrecord.shared.Records;
 import com.musicrecord.shared.User;
 
@@ -31,13 +32,18 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
     }
 
     @Override
-    public String editRecord(Records record) throws Exception {
-	return musicHelper.editRecord(record);
+    public String saveRecord(Records record) throws Exception {
+	return musicHelper.saveRecord(record);
     }
 
     @Override
     public String deleteRecord(Records record) throws Exception {
 	return musicHelper.deleteRecord(record);
+    }
+
+    @Override
+    public ArrayList<Category> fetchCategories() throws Exception {
+	return musicHelper.fetchCategories();
     }
 
 }

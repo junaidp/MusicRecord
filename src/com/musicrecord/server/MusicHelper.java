@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.musicrecord.database.MySQLRdbHelper;
+import com.musicrecord.shared.Category;
 import com.musicrecord.shared.Records;
 import com.musicrecord.shared.User;
 
@@ -31,12 +32,16 @@ public class MusicHelper {
 	return rdbHelper.fetchRecords(map);
     }
 
-    public String editRecord(Records record) throws Exception {
-	return rdbHelper.editRecord(record);
+    public String saveRecord(Records record) throws Exception {
+	return rdbHelper.saveRecord(record);
     }
 
     public String deleteRecord(Records record) throws Exception {
 	return rdbHelper.deleteRecord(record);
     }
 
+    public ArrayList<Category> fetchCategories() throws Exception {
+
+	return rdbHelper.fetchCategories();
+    }
 }

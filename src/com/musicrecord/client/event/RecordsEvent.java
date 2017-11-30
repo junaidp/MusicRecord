@@ -5,12 +5,10 @@ import com.musicrecord.shared.User;
 
 public class RecordsEvent extends GwtEvent<RecordsEventHandler> {
 
+    User loggedInUser;
+
     public RecordsEvent(User loggedInUser) {
-
-    }
-
-    public RecordsEvent() {
-
+	this.loggedInUser = loggedInUser;
     }
 
     public static Type<RecordsEventHandler> TYPE = new Type<RecordsEventHandler>();
@@ -24,6 +22,14 @@ public class RecordsEvent extends GwtEvent<RecordsEventHandler> {
     protected void dispatch(RecordsEventHandler handler) {
 	handler.onRecords(this);
 
+    }
+
+    public User getLoggedInUser() {
+	return loggedInUser;
+    }
+
+    public void setLoggedInUser(User loggedInUser) {
+	this.loggedInUser = loggedInUser;
     }
 
 }

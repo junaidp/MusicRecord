@@ -7,9 +7,11 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -27,23 +29,38 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
     private SimplePager pager;
     private TextBox textSearch = new TextBox();
     private ListBox listSearchBy = new ListBox();
+    private Button btnAddRecord = new Button("Add");
 
     public RecordsView() {
 
 	cellTable = new CellTable<Records>();
+	layout();
+	setPagerToCellTable();
+
+    }
+
+    private void layout() {
 	HorizontalPanel hpnlSearch = new HorizontalPanel();
+	Label lblSearchBy = new Label("Search by :");
+	lblSearchBy.addStyleName("w3-text-blue");
+	hpnlSearch.add(lblSearchBy);
+	hpnlSearch.setSpacing(5);
+	hpnlSearch.add(listSearchBy);
 	hpnlSearch.add(listSearchBy);
 	hpnlSearch.add(textSearch);
-	textSearch.getElement().setPropertyString("placeholder", "Search");
+	textSearch.getElement().setPropertyString("placeholder", "Enter keyword..");
+	textSearch.setTitle("Enter Title or Artist Name..");
 	listSearchBy.addItem("All");
 	listSearchBy.addItem("Title");
 	listSearchBy.addItem("Artist");
+	btnAddRecord.setStyleName("w3-button w3-blue");
+	btnAddRecord.setWidth("90px");
+	listSearchBy.setHeight("32px");
 	createCellTableFields();
 
 	add(hpnlSearch);
+	add(btnAddRecord);
 	add(cellTable);
-	setPagerToCellTable();
-
     }
 
     private void createCellTableFields() {
@@ -160,6 +177,10 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 
     public ListBox getListSearchBy() {
 	return listSearchBy;
+    }
+
+    public Button getBtnAddRecord() {
+	return btnAddRecord;
     }
 
 }
