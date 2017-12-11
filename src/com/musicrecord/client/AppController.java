@@ -5,15 +5,22 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.musicrecord.client.event.AdminEvent;
 import com.musicrecord.client.event.AdminEventHandler;
-import com.musicrecord.client.event.RecordsEvent;
-import com.musicrecord.client.event.RecordsEventHandler;
+import com.musicrecord.client.event.RecordsAdminEvent;
+import com.musicrecord.client.event.RecordsAdminEventHandler;
+import com.musicrecord.client.event.RecordsUserEvent;
+import com.musicrecord.client.event.RecordsUserEventHandler;
+import com.musicrecord.client.presenter.HeaderPresenter;
 import com.musicrecord.client.presenter.LoginPresenter;
 import com.musicrecord.client.presenter.Presenter;
 import com.musicrecord.client.presenter.RecordsPresenter;
+import com.musicrecord.client.view.HeaderView;
 import com.musicrecord.client.view.LoginView;
+import com.musicrecord.client.view.RecordsAdminView;
+import com.musicrecord.client.view.RecordsUserView;
 import com.musicrecord.client.view.RecordsView;
 import com.musicrecord.shared.User;
 
@@ -21,7 +28,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     private final HandlerManager eventBus;
 
     private final GreetingServiceAsync rpcService;
-    private HasWidgets container;
+    private HasWidgets container, headerContainer ;
     private User loggedInUser;
     private VerticalPanel centerPanel;
     private HasWidgets mainContainer;
@@ -46,23 +53,36 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	    }
 	});
 
-	eventBus.addHandler(RecordsEvent.TYPE, new RecordsEventHandler() {
-	    public void onRecords(RecordsEvent event) {
+	eventBus.addHandler(RecordsAdminEvent.TYPE, new RecordsAdminEventHandler() {
+	    public void onRecords(RecordsAdminEvent event) {
 		loggedInUser = event.getLoggedInUser();
 
-		History.newItem("catalogue");
+		History.newItem("catalogueAdmin");
 
 	    }
 	});
 
+	eventBus.addHandler(RecordsUserEvent.TYPE, new RecordsUserEventHandler() {
+	    public void onRecords(RecordsUserEvent event) {
+		loggedInUser = event.getLoggedInUser();
+
+		History.newItem("catalogueUser");
+
+	    }
+	    });
+
     }
 
-    public void go(final HasWidgets container) {
+    public void go(final HasWidgets container, HasWidgets headerContainer) {
 	this.container = container;
+	this.headerContainer = headerContainer;
 
 	if (centerPanel == null) {
 	    centerPanel = new VerticalPanel();
 	}
+	
+	presenter = new HeaderPresenter(rpcService, eventBus, new HeaderView());
+	presenter.go(headerContainer);
 
 	if ("".equals(History.getToken())) {
 	    History.newItem("login");
@@ -86,11 +106,17 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		presenter.go(container);
 	    }
 
-	    else if (token.equals("catalogue")) {
-		presenter = new RecordsPresenter(rpcService, eventBus, new RecordsView());
+	    else if (token.equals("catalogueAdmin")) {
+		presenter = new RecordsPresenter(rpcService, eventBus, new RecordsAdminView());
 		presenter.go(container);
 
 	    }
+	    
+	    else if (token.equals("catalogueUser")) {
+			presenter = new RecordsPresenter(rpcService, eventBus, new RecordsUserView());
+			presenter.go(container);
+
+		    }
 
 	}
     }
@@ -99,4 +125,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	this.container = container;
 	this.container.clear();
     }
+
+	@Override
+	public void go(HasWidgets container) {
+		// TODO Auto-generated method stub
+		
+	}
 }

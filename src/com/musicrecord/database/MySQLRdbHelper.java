@@ -37,7 +37,7 @@ public class MySQLRdbHelper {
 	    Criteria crit = session.createCriteria(User.class);
 	    crit.add(Restrictions.eq("name", userid));
 	    crit.add(Restrictions.eq("password", password));
-	    // crit.createAlias("roleId", "role");
+	    crit.createAlias("roleId", "role");
 
 	    List rsList = crit.list();
 	    for (Iterator it = rsList.iterator(); it.hasNext();) {

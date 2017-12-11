@@ -1,8 +1,12 @@
 package com.musicrecord.client.view;
 
 import com.google.gwt.cell.client.ButtonCell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -10,6 +14,7 @@ import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -20,22 +25,25 @@ import com.musicrecord.shared.Records;
 
 public class RecordsView extends VerticalPanel implements RecordsPresenter.Display {
 
-    private CellTable<Records> cellTable;
-    private Column<Records, String> title;
-    private Column<Records, String> artist;
-    private Column<Records, String> category;
-    private Column<Records, String> edit;
-    private Column<Records, String> delete;
+    protected CellTable<Records> cellTable;
+    protected Column<Records, String> title;
+    protected Column<Records, String> artist;
+    protected Column<Records, String> category;
+    protected Column<Records, String> edit;
+    protected Column<Records, String> delete;
     private SimplePager pager;
     private TextBox textSearch = new TextBox();
     private ListBox listSearchBy = new ListBox();
-    private Button btnAddRecord = new Button("Add");
+    protected Button btnAddRecord = new Button("Add");
 
     public RecordsView() {
 
 	cellTable = new CellTable<Records>();
 	layout();
 	setPagerToCellTable();
+	btnAddRecord.ensureDebugId("buttonAdd");
+	textSearch.ensureDebugId("textSearch");
+	listSearchBy.ensureDebugId("listBoxSearchBy");
 
     }
 
@@ -43,11 +51,16 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 	HorizontalPanel hpnlSearch = new HorizontalPanel();
 	Label lblSearchBy = new Label("Search by :");
 	lblSearchBy.addStyleName("w3-text-blue");
-	hpnlSearch.add(lblSearchBy);
+	Label lblCatalogue = new Label("Catalogue");
+	lblCatalogue.addStyleName("w3-text-blue");
 	hpnlSearch.setSpacing(5);
-	hpnlSearch.add(listSearchBy);
+	hpnlSearch.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+	hpnlSearch.add(lblSearchBy);
 	hpnlSearch.add(listSearchBy);
 	hpnlSearch.add(textSearch);
+	hpnlSearch.add(btnAddRecord);
+
+	btnAddRecord.getElement().getStyle().setMarginLeft(100, Unit.PCT);
 	textSearch.getElement().setPropertyString("placeholder", "Enter keyword..");
 	textSearch.setTitle("Enter Title or Artist Name..");
 	listSearchBy.addItem("All");
@@ -59,7 +72,6 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 	createCellTableFields();
 
 	add(hpnlSearch);
-	add(btnAddRecord);
 	add(cellTable);
     }
 
@@ -77,8 +89,6 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 	    }
 	};
 
-	cellTable.addColumn(title, MyConstants.COLUMN_TITLE);
-
 	artist = new Column<Records, String>(new TextCell()) {
 
 	    @Override
@@ -86,8 +96,6 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 		return object.getArtist();
 	    }
 	};
-
-	cellTable.addColumn(artist, MyConstants.COLUMN_ARTIST);
 
 	category = new Column<Records, String>(new TextCell()) {
 
@@ -97,9 +105,25 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 	    }
 	};
 
-	cellTable.addColumn(category, MyConstants.COLUMN_CATEGORY);
+	edit = new Column<Records, String>(new ButtonCell()
 
-	edit = new Column<Records, String>(new ButtonCell()) {
+	{
+	    @Override
+	    public void render(final Context context, final SafeHtml data, final SafeHtmlBuilder sb) {
+		sb.appendHtmlConstant("<button type=\"button\" class=\"w3-button w3-blue\" tabindex=\"-1\">");
+		if (data != null) {
+		    sb.append(data);
+		}
+		sb.appendHtmlConstant("</button>");
+	    }
+	}
+
+	) {
+
+	    @Override
+	    public String getCellStyleNames(Context context, Records object) {
+		return "w3-button w3-blue";
+	    }
 
 	    @Override
 	    public String getValue(Records object) {
@@ -107,17 +131,29 @@ public class RecordsView extends VerticalPanel implements RecordsPresenter.Displ
 	    }
 	};
 
-	cellTable.addColumn(edit, "");
+	delete = new Column<Records, String>(new ButtonCell() {
+	    @Override
+	    public void render(final Context context, final SafeHtml data, final SafeHtmlBuilder sb) {
+		sb.appendHtmlConstant("<button type=\"button\" class=\"w3-button w3-red\" tabindex=\"-1\">");
+		if (data != null) {
+		    sb.append(data);
+		}
+		sb.appendHtmlConstant("</button>");
+	    }
+	}
 
-	delete = new Column<Records, String>(new ButtonCell()) {
+	) {
+
+	    @Override
+	    public String getCellStyleNames(Context context, Records object) {
+		return "w3-button w3-red";
+	    }
 
 	    @Override
 	    public String getValue(Records object) {
 		return "Delete";
 	    }
 	};
-
-	cellTable.addColumn(delete, "");
 
 	title.setSortable(true);
 	artist.setSortable(true);

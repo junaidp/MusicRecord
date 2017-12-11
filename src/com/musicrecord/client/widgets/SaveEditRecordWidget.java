@@ -18,19 +18,28 @@ public class SaveEditRecordWidget extends VerticalPanel {
     private TextBox title, artist;
     private ListBox listCategory;
     private Button save, cancel;
+    Label lblWindowHeader;
 
-    public SaveEditRecordWidget(ArrayList<Category> categories) {
+    public SaveEditRecordWidget(ArrayList<Category> categories, String poopWindowHeader) {
 
 	VerticalPanel mainPanel = new VerticalPanel();
 
+	HorizontalPanel popHeader = new HorizontalPanel();
+	lblWindowHeader = new Label(poopWindowHeader);
+
+	lblWindowHeader.addStyleName("w3-container w3-blue");
+	lblWindowHeader.getElement().getStyle().setPaddingLeft(70, Unit.PX);
+	popHeader.add(lblWindowHeader);
+	popHeader.setWidth("100%");
+
 	save = new Button("Save");
-	save.getElement().getStyle().setMarginLeft(38, Unit.PX);
+	save.setStyleName("w3-button w3-blue");
 	save.setWidth("70px");
 
 	cancel = new Button("Cancel");
 	cancel.setWidth("70px");
-	save.setStyleName("w3-button w3-blue");
 	cancel.setStyleName("w3-button w3-blue");
+	cancel.getElement().getStyle().setMarginLeft(42, Unit.PX);
 
 	Label label_Title = new Label("Title : ");
 	label_Title.addStyleName("w3-text-blue");
@@ -50,16 +59,23 @@ public class SaveEditRecordWidget extends VerticalPanel {
 
 	mainPanel.setSpacing(10);
 	FlexTable flex = new FlexTable();
+
 	flex.setWidget(0, 0, label_Title);
 	flex.setWidget(0, 1, title);
 	flex.setWidget(1, 0, label_Artist);
 	flex.setWidget(1, 1, artist);
 	flex.setWidget(2, 0, label_Category);
 	flex.setWidget(2, 1, listCategory);
+
 	HorizontalPanel hpnlButton = new HorizontalPanel();
+	hpnlButton.setSpacing(2);
+	// hpnlButton.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
+
 	hpnlButton.add(cancel);
 	hpnlButton.add(save);
+
 	flex.setWidget(3, 1, hpnlButton);
+	mainPanel.add(popHeader);
 	mainPanel.add(flex);
 
 	for (Category c : categories) {
@@ -67,6 +83,11 @@ public class SaveEditRecordWidget extends VerticalPanel {
 	}
 
 	add(mainPanel);
+
+	title.ensureDebugId("textTitle");
+	artist.ensureDebugId("textArtist");
+	listCategory.ensureDebugId("listCategory");
+	save.ensureDebugId("buttonSave");
 
     }
 

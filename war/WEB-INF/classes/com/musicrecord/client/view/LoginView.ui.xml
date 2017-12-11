@@ -16,7 +16,7 @@
 			<g:Label />
 			<g:HTMLPanel width="500px">
 				<g:HTMLPanel styleName="w3-panel w3-blue header">
-					Sign in
+					Sing in to explore Music Catalogue
 				</g:HTMLPanel>
 
 				<div>

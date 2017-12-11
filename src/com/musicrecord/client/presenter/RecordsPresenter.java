@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.musicrecord.client.GreetingServiceAsync;
+import com.musicrecord.client.widgets.DisplayAlert;
 import com.musicrecord.client.widgets.SaveEditRecordWidget;
 import com.musicrecord.shared.Category;
 import com.musicrecord.shared.Records;
@@ -76,7 +77,7 @@ public class RecordsPresenter implements Presenter
 
 	    @Override
 	    public void onClick(ClickEvent event) {
-		SaveEditRecordWidget saveEditRecordWidget = new SaveEditRecordWidget(categories);
+		SaveEditRecordWidget saveEditRecordWidget = new SaveEditRecordWidget(categories, "Create New Record");
 		Records record = new Records();
 		saveRecord(record, saveEditRecordWidget);
 
@@ -90,6 +91,9 @@ public class RecordsPresenter implements Presenter
 
 	    @Override
 	    public void update(int index, Records record, String value) {
+		// boolean confirm = Window.confirm("You really want to delete
+		// the record");
+		// if (confirm)
 		deleteRecord(record);
 
 	    }
@@ -100,7 +104,7 @@ public class RecordsPresenter implements Presenter
 
 	    @Override
 	    public void update(int index, Records record, String value) {
-		SaveEditRecordWidget saveEditRecordWidget = new SaveEditRecordWidget(categories);
+		SaveEditRecordWidget saveEditRecordWidget = new SaveEditRecordWidget(categories, "Update Record");
 		saveEditRecordWidget.populateFields(record);
 		saveRecord(record, saveEditRecordWidget);
 
@@ -144,13 +148,14 @@ public class RecordsPresenter implements Presenter
 
 	    @Override
 	    public void onSuccess(String result) {
+		new DisplayAlert(result);
 		fetchRecords();
 
 	    }
 
 	    @Override
 	    public void onFailure(Throwable caught) {
-		Window.alert("Record updation failed" + caught.getLocalizedMessage());
+		Window.alert("Record deletion failed." + caught.getLocalizedMessage());
 
 	    }
 	});
@@ -173,15 +178,14 @@ public class RecordsPresenter implements Presenter
 		    @Override
 		    public void onSuccess(String result) {
 			fetchRecords();
-
-			Window.alert(result);
+			new DisplayAlert(result);
 			popup.removeFromParent();
 
 		    }
 
 		    @Override
 		    public void onFailure(Throwable caught) {
-			Window.alert("Record Saved failed" + caught.getLocalizedMessage());
+			Window.alert("Record Save failed" + caught.getLocalizedMessage());
 			popup.removeFromParent();
 
 		    }
@@ -226,7 +230,7 @@ public class RecordsPresenter implements Presenter
 
 	    @Override
 	    public void onFailure(Throwable caught) {
-		Window.alert("fail");
+		Window.alert("fail fetch Records" + caught.getLocalizedMessage());
 
 	    }
 	});
@@ -243,7 +247,7 @@ public class RecordsPresenter implements Presenter
 
 	    @Override
 	    public void onFailure(Throwable caught) {
-		Window.alert("fail");
+		Window.alert("fail fetch Categories" + caught.getLocalizedMessage());
 
 	    }
 

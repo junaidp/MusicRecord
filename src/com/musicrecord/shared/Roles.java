@@ -18,16 +18,13 @@ public class Roles implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "roleId")
+    @Column(name = "roleid")
     private int roleId;
 
-    @Column(name = "roleName")
+    @Column(name = "rolename")
     private String roleName;
 
-    @Column(name = "chargeRate")
-    private int chargeRate;
-
-    public Roles() {
+     public Roles() {
     }
 
     public int getRoleId() {
@@ -46,12 +43,5 @@ public class Roles implements Serializable {
 	this.roleName = roleName;
     }
 
-    public int getChargeRate() {
-	return chargeRate;
-    }
-
-    public void setChargeRate(int chargeRate) {
-	this.chargeRate = chargeRate;
-    }
 
 }

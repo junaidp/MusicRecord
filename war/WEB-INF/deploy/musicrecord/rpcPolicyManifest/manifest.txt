@@ -1,0 +1,3 @@
+# Module musicrecord
+# RPC service class, partial path of RPC policy file
+com.musicrecord.client.GreetingService, 87143408BF271DEA7447CA34C681C13B.gwt.rpc

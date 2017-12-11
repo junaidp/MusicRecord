@@ -15,7 +15,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.musicrecord.client.GreetingServiceAsync;
-import com.musicrecord.client.event.RecordsEvent;
+import com.musicrecord.client.event.RecordsAdminEvent;
+import com.musicrecord.client.event.RecordsUserEvent;
 import com.musicrecord.client.view.LoadingPopup;
 import com.musicrecord.shared.User;
 
@@ -93,12 +94,13 @@ public class LoginPresenter implements Presenter
 		if (user != null) {
 
 		    display.getLblError().setVisible(false);
-		    // if (user.getRoleId().getRoleId() == 5) {
-		    eventBus.fireEvent(new RecordsEvent(user));
-		    // eventBus.fireEvent(new AdminEvent(user));
-		    // } else {
-		    // eventBus.fireEvent(new MainEvent(user));...
-		    // }
+		    if (user.getRoleId().getRoleId() == 1) {
+
+			eventBus.fireEvent(new RecordsUserEvent(user));
+
+		    } else {
+			eventBus.fireEvent(new RecordsAdminEvent(user));
+		    }
 		} else {
 		    display.getLblError().setVisible(true);
 		    display.getLblError().setText("username / password invalid");

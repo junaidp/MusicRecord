@@ -3,8 +3,6 @@ package com.musicrecord.server;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.servlet.http.HttpSession;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.musicrecord.client.GreetingService;
 import com.musicrecord.shared.Category;
@@ -17,7 +15,6 @@ import com.musicrecord.shared.User;
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
 
-    HttpSession session;
     MusicHelper musicHelper = new MusicHelper();
 
     @Override

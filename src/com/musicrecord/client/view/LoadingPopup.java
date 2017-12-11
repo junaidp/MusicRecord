@@ -14,10 +14,8 @@ public class LoadingPopup {
 		VerticalPanel vpnlLoad = new VerticalPanel();
 		vpnlLoad.setSize("20px", "20px");
 		vpnlLoad.add(new Image("loading.gif"));
-//		popupLoading.setWidget(vpnlLoad);
 		popupLoading.setWidget(new Image("loading.gif"));
 		popupLoading.setStyleName("whiteBackground");
-//		popupLoading.setGlassEnabled(true);
 		popupLoading.center();
 	}
 
